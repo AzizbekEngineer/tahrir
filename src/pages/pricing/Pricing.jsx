@@ -6,7 +6,7 @@ import {
   RefreshCw,
   Headphones,
 } from "lucide-react";
-import "./Pricing.scss";
+import "./pricing.scss";
 
 const PLANS = [
   {
