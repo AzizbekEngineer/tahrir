@@ -1,0 +1,149 @@
+@use "../../styles/variables" as *;
+@use "../../styles/motion" as *;
+
+.audience {
+    background: $white;
+    font-family: $font;
+    color: $ink;
+    padding: 88px 24px;
+
+    &__inner {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    &__head {
+        @include section-head;
+    }
+
+    &__badge {
+        @include section-badge;
+        @include reveal(0s);
+        background: $orange-soft;
+        color: $action-orange;
+    }
+
+    &__title {
+        @include section-title;
+        @include reveal(0.1s);
+    }
+
+    &__text {
+        margin: 0;
+        font-size: clamp(15px, 1.3vw, 17px);
+        line-height: 1.6;
+        color: $muted;
+        @include reveal(0.2s);
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 24px;
+    border: 1px solid $border;
+    border-radius: 20px;
+    background: $warm;
+    overflow: hidden;
+    transition: transform 0.35s $ease-out, box-shadow 0.35s $ease-out,
+        border-color 0.3s, background 0.3s;
+
+    @for $i from 1 through 4 {
+        &:nth-child(#{$i}) {
+            @include reveal(0.15s * $i + 0.2s);
+        }
+    }
+
+    // pastdan chiquvchi urg'u chizig'i
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 3px;
+        background: $brand-orange;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s $ease-out;
+    }
+
+    &:hover {
+        transform: translateY(-8px);
+        background: $white;
+        border-color: $orange-soft;
+        box-shadow: 0 20px 40px rgba(23, 27, 25, 0.1);
+
+        &::after {
+            transform: scaleX(1);
+        }
+    }
+
+    &__icon {
+        display: grid;
+        place-items: center;
+        width: 52px;
+        height: 52px;
+        margin-bottom: 20px;
+        border-radius: 16px;
+        background: $orange-soft;
+        color: $action-orange;
+        transition: transform 0.35s $ease-out, background 0.3s, color 0.3s;
+    }
+
+    &:hover &__icon {
+        background: $action-orange;
+        color: $white;
+        transform: rotate(-8deg) scale(1.1);
+    }
+
+    &__title {
+        margin: 0 0 8px;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+    &__text {
+        flex: 1;
+        margin: 0 0 18px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: $muted;
+    }
+
+    &__tag {
+        align-self: flex-start;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: $white;
+        border: 1px solid $border;
+        font-size: 12px;
+        color: $ink;
+    }
+}
+
+@media (max-width: $bp-lg) {
+    .audience__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: $bp-md) {
+    .audience {
+        padding: 64px 20px;
+
+        &__grid {
+            grid-template-columns: 1fr;
+        }
+    }
+}

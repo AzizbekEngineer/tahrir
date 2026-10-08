@@ -1,0 +1,107 @@
+$bg: #faf7f2;
+$text: #1c1c1c;
+$accent: #ff6a2b;
+$primary: #cc5124;
+$primary-hover: #b4441b;
+$border: #e8e3da;
+
+.register {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: $bg;
+
+    &__card {
+        width: 100%;
+        max-width: 440px;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        background: #fff;
+        border: 1px solid $border;
+        border-radius: 20px;
+    }
+
+    &__logo {
+        height: 36px;
+        width: auto;
+        align-self: center;
+    }
+
+    &__title {
+        margin: 0;
+        font-size: 32px;
+        color: $text;
+    }
+
+    &__label {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        color: $text;
+
+        input {
+            height: 50px;
+            padding: 0 16px;
+            font: inherit;
+            font-size: 16px;
+            font-weight: 400;
+            background: $bg;
+            border: 1px solid $border;
+            border-radius: 12px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+
+            &:focus {
+                border-color: $accent;
+                box-shadow: 0 0 0 3px rgba($accent, 0.15);
+            }
+        }
+    }
+
+    &__btn {
+        height: 52px;
+        font: inherit;
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+        background: $primary;
+        border: 0;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover {
+            background: $primary-hover;
+        }
+    }
+
+    &__text {
+        margin: 0;
+        text-align: center;
+        font-size: 15px;
+        color: #6f6a62;
+
+        a {
+            color: $primary;
+            font-weight: 600;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .register__card {
+        padding: 28px 20px;
+    }
+}

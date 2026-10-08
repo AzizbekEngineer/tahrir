@@ -1,0 +1,162 @@
+@use "../../styles/variables" as *;
+@use "../../styles/motion" as *;
+
+.faq {
+    background: $white;
+    font-family: $font;
+    color: $ink;
+    padding: 88px 24px;
+
+    &__inner {
+        max-width: 760px;
+        margin: 0 auto;
+    }
+
+    &__head {
+        @include section-head;
+    }
+
+    &__badge {
+        @include section-badge;
+        @include reveal(0s);
+        background: $orange-soft;
+        color: $action-orange;
+    }
+
+    &__title {
+        @include section-title;
+        @include reveal(0.1s);
+    }
+
+    &__text {
+        margin: 0;
+        font-size: clamp(15px, 1.3vw, 17px);
+        line-height: 1.6;
+        color: $muted;
+        @include reveal(0.2s);
+    }
+
+    &__list {
+        display: grid;
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+}
+
+.item {
+    border: 1px solid $border;
+    border-radius: 16px;
+    background: $warm;
+    overflow: hidden;
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+
+    @for $i from 1 through 5 {
+        &:nth-child(#{$i}) {
+            @include reveal(0.1s * $i + 0.2s);
+        }
+    }
+
+    &:hover {
+        border-color: darken($border, 10%);
+    }
+
+    &.is-open {
+        background: $white;
+        border-color: $orange-soft;
+        box-shadow: 0 12px 28px rgba(23, 27, 25, 0.07);
+    }
+
+    &__heading {
+        margin: 0;
+    }
+
+    &__btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        width: 100%;
+        padding: 20px 24px;
+        border: 0;
+        background: transparent;
+        color: $ink;
+        font: 500 16px/1.4 $font;
+        text-align: left;
+        cursor: pointer;
+
+        svg {
+            flex-shrink: 0;
+            color: $brand-orange;
+            transition: transform 0.4s $ease-out;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $brand-orange;
+            outline-offset: -4px;
+            border-radius: 16px;
+        }
+    }
+
+    &.is-open &__btn svg {
+        transform: rotate(180deg);
+    }
+
+    // Balandlikni silliq ochish: grid-template-rows 0fr -> 1fr
+    &__panel {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.45s $ease-out;
+    }
+
+    &.is-open &__panel {
+        grid-template-rows: 1fr;
+    }
+
+    &__panel-inner {
+        min-height: 0;
+        overflow: hidden;
+
+        p {
+            margin: 0;
+            padding: 0 24px 22px;
+            font-size: 15px;
+            line-height: 1.65;
+            color: $muted;
+            opacity: 0;
+            transform: translateY(-6px);
+            transition: opacity 0.35s ease, transform 0.45s $ease-out;
+        }
+    }
+
+    &.is-open &__panel-inner p {
+        opacity: 1;
+        transform: none;
+        transition-delay: 0.1s;
+    }
+}
+
+@media (max-width: $bp-md) {
+    .faq {
+        padding: 64px 20px;
+    }
+
+    .item__btn {
+        padding: 18px 18px;
+        font-size: 15px;
+    }
+
+    .item__panel-inner p {
+        padding: 0 18px 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .item__panel,
+    .item__panel-inner p,
+    .item__btn svg {
+        transition: none !important;
+    }
+}

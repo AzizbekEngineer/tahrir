@@ -1,0 +1,149 @@
+@use "../../styles/variables" as *;
+@use "../../styles/motion" as *;
+
+@keyframes orb-drift {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(16px, -20px) scale(1.08);
+    }
+}
+
+@keyframes arrow-nudge-cta {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+}
+
+.cta {
+    background: $white;
+    font-family: $font;
+    padding: 24px 24px 96px;
+
+    &__card {
+        position: relative;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: clamp(40px, 6vw, 72px) 24px;
+        border-radius: 28px;
+        background: linear-gradient(135deg, $action-orange, $brand-orange);
+        color: $white;
+        text-align: center;
+        overflow: hidden;
+        @include reveal(0s, reveal-scale);
+    }
+
+    &__orb {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.14);
+        animation: orb-drift 9s ease-in-out infinite;
+
+        &--1 {
+            top: -80px;
+            left: -60px;
+            width: 260px;
+            height: 260px;
+        }
+
+        &--2 {
+            right: -50px;
+            bottom: -90px;
+            width: 300px;
+            height: 300px;
+            animation-delay: -3s;
+        }
+
+        &--3 {
+            top: 40%;
+            right: 18%;
+            width: 90px;
+            height: 90px;
+            background: rgba(255, 255, 255, 0.1);
+            animation-delay: -6s;
+        }
+    }
+
+    &__content {
+        position: relative;
+        max-width: 620px;
+        margin: 0 auto;
+    }
+
+    &__title {
+        margin: 0 0 14px;
+        font-size: clamp(28px, 3.8vw, 44px);
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        @include reveal(0.2s);
+    }
+
+    &__text {
+        margin: 0 0 30px;
+        font-size: clamp(15px, 1.3vw, 17px);
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.88);
+        @include reveal(0.35s);
+    }
+
+    &__btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        height: 50px;
+        padding: 0 28px;
+        border: 0;
+        border-radius: $radius-sm;
+        background: $white;
+        color: $ink;
+        font: 600 15px $font;
+        cursor: pointer;
+        transition: transform 0.25s $ease-out, box-shadow 0.25s $ease-out;
+        @include reveal(0.5s);
+
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(23, 27, 25, 0.25);
+
+            svg {
+                animation: arrow-nudge-cta 0.9s ease-in-out infinite;
+            }
+        }
+
+        &:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        &:focus-visible {
+            outline: 3px solid $ink;
+            outline-offset: 3px;
+        }
+    }
+}
+
+@media (max-width: $bp-md) {
+    .cta {
+        padding: 16px 20px 64px;
+
+        &__card {
+            border-radius: 22px;
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cta__orb {
+        animation: none !important;
+    }
+}

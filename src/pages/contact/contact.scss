@@ -1,0 +1,300 @@
+@use "../../styles/variables" as *;
+
+.contact {
+    width: 100%;
+    background-color: $white;
+    padding: 110px 0px 0px;
+
+    @media (max-width:600px) {
+        padding: 90px 0px 0px;
+    }
+
+    &__head {
+        max-width: 640px;
+        margin-bottom: 24px;
+
+        @media (max-width: 768px) {
+            margin-bottom: 18px;
+        }
+    }
+
+    &__eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: $primary;
+        margin-bottom: 18px;
+
+        @media (max-width:600px) {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width:600px) {
+            margin-bottom: 10px;
+        }
+
+        &::before {
+            content: "";
+            width: 28px;
+            height: 2px;
+            background-color: $primary;
+        }
+    }
+
+    &__title {
+        margin: 0 0 16px;
+        font-weight: 800;
+        font-size: 48px;
+        line-height: 1.12;
+        letter-spacing: -0.5px;
+        color: #15151a;
+
+        span {
+            color: rgb(255, 0, 0);
+        }
+
+        @media (max-width: 768px) {
+            font-size: 36px;
+            margin: 0px 0px 10px;
+        }
+
+        @media (max-width: 575px) {
+            font-size: 28px;
+        }
+    }
+
+    &__subtitle {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.6;
+        color: #5b5b63;
+
+        @media (max-width: 575px) {
+            font-size: 15px;
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+        gap: 48px;
+
+        @media (max-width: 991px) {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    &__card {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
+        padding: 22px 24px;
+        border-radius: 14px;
+        background-color: #f7f7f8;
+        border: 1px solid #ececef;
+        transition: border-color 0.25s ease, transform 0.25s ease;
+
+        &:hover {
+            border-color: #e3433a33;
+            transform: translateX(2px);
+        }
+
+        @media (max-width: 600px) {
+            padding: 12px 10px;
+        }
+    }
+
+    &__card-mark {
+        flex-shrink: 0;
+        width: 3px;
+        height: 100%;
+        min-height: 38px;
+        border-radius: 2px;
+        background: rgb(255, 0, 0);
+    }
+
+    &__card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    &__card-label {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        color: #a3a3ac;
+    }
+
+    &__card-text {
+        display: flex;
+        align-items: flex-start;
+        gap: 2px;
+        flex-direction: column;
+        font-size: 17px;
+        font-weight: 500;
+        line-height: 1.5;
+        color: #15151a;
+
+        @media (max-width:600px) {
+            font-size: 15px;
+        }
+
+        a {
+            color: #15151a;
+            text-decoration: none;
+
+            &:hover {
+                color: rgb(255, 0, 0);
+            }
+        }
+    }
+
+    &__form-wrap {
+        background-color: #ffffff;
+        border: 1px solid #ececef;
+        border-radius: 18px;
+        padding: 40px;
+        box-shadow: 0 20px 50px -20px rgba(20, 20, 25, 0.12);
+
+        @media (max-width: 575px) {
+            padding: 15px;
+        }
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+
+        @media (max-width: 600px) {
+            gap: 12px;
+        }
+    }
+
+    &__form-title {
+        margin: 0 0 4px;
+        font-size: 24px;
+        font-weight: 800;
+        color: #15151a;
+    }
+
+    &__field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #5b5b63;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid #e2e2e6;
+            border-radius: 10px;
+            padding: 13px 16px;
+            font-size: 15px;
+            color: #15151a;
+            background-color: #fcfcfd;
+            outline: none;
+            resize: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+            &::placeholder {
+                color: #b3b3ba;
+            }
+
+            &:focus {
+                border-color: rgb(255, 0, 0);
+                box-shadow: 0 0 0 3px rgba(192, 40, 45, 0.1);
+            }
+        }
+    }
+
+    &__form-btn {
+        margin-top: 6px;
+        padding: 15px 24px;
+        border: none;
+        border-radius: 10px;
+        background-color: rgb(255, 0, 0);
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+
+        &:hover {
+            background-color: rgb(255, 0, 0);
+        }
+
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    &__success {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding: 24px 0;
+
+        &--in {
+            animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        h3 {
+            margin: 12px 0 0;
+            font-size: 22px;
+            font-weight: 800;
+            color: #15151a;
+        }
+
+        p {
+            margin: 0 0 18px;
+            font-size: 15px;
+            color: #5b5b63;
+        }
+    }
+
+    &__success-mark {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-color: rgb(255, 0, 0);
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    &-map {
+        padding-top: 40px;
+        line-height: 0
+    }
+
+    @media (max-width: 600px) {
+        &-map {
+            padding-top: 26px;
+        }
+    }
+}

@@ -1,0 +1,38 @@
+// ===== Ranglar =====
+$brand-orange: #ff5100;
+$action-orange: #df4500;
+$ink: #171b19;
+$canvas: #f6f7f5;
+$warm: #fbf8f3;
+$border: #e5e8e4;
+$white: #fff;
+
+// Hosila ranglar
+$orange-soft: #fdeee6;
+$green: #1f7a4d;
+$green-soft: #e6f4ec;
+$muted: #6b726e;
+
+// ===== Tipografiya =====
+$font: "Roboto", system-ui, sans-serif;
+$fs-display: 74px;
+$fs-section: 32px;
+$fs-body: 20px;
+$fs-label: 16px;
+
+// ===== Boshqa =====
+$radius-sm: 10px;
+$radius-md: 14px;
+$radius-pill: 999px;
+$bp-lg: 1024px;
+$bp-md: 640px;
+
+// CSS o'zgaruvchilari (runtime'da ham ishlatish uchun)
+:root {
+    --brand-orange: #{$brand-orange};
+    --action-orange: #{$action-orange};
+    --ink: #{$ink};
+    --canvas: #{$canvas};
+    --warm: #{$warm};
+    --border: #{$border};
+}

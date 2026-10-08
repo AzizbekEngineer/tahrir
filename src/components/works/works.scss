@@ -1,0 +1,181 @@
+@use "../../styles/variables" as *;
+@use "../../styles/motion" as *;
+
+@keyframes line-draw {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes icon-bob {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+.how {
+    background: $warm;
+    font-family: $font;
+    color: $ink;
+    padding: 88px 24px;
+
+    &__inner {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    &__head {
+        @include section-head;
+    }
+
+    &__badge {
+        @include section-badge;
+        @include reveal(0s);
+        background: $orange-soft;
+        color: $action-orange;
+    }
+
+    &__title {
+        @include section-title;
+        @include reveal(0.1s);
+    }
+
+    &__text {
+        margin: 0;
+        font-size: clamp(15px, 1.3vw, 17px);
+        line-height: 1.6;
+        color: $muted;
+        @include reveal(0.2s);
+    }
+
+    &__steps {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        // Qadamlarni bog'lovchi chiziq
+        &::before {
+            content: "";
+            position: absolute;
+            top: 40px;
+            left: 16.6%;
+            right: 16.6%;
+            height: 2px;
+            background: repeating-linear-gradient(90deg,
+                    $brand-orange 0 8px,
+                    transparent 8px 16px);
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+    }
+
+    &.is-visible &__steps::before {
+        animation: line-draw 1.2s $ease-out 0.5s forwards;
+    }
+}
+
+.step {
+    position: relative;
+    text-align: center;
+
+    @for $i from 1 through 3 {
+        &:nth-child(#{$i}) {
+            @include reveal(0.25s * $i);
+        }
+    }
+
+    &__icon {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 22px;
+        border-radius: 24px;
+        background: $white;
+        color: $brand-orange;
+        box-shadow: 0 10px 24px rgba(23, 27, 25, 0.08);
+        transition: transform 0.35s $ease-out, background 0.3s, color 0.3s;
+    }
+
+    &:hover &__icon {
+        background: $action-orange;
+        color: $white;
+        transform: translateY(-6px) rotate(-4deg);
+    }
+
+    &__num {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        display: grid;
+        place-items: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: $ink;
+        color: $white;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    &__title {
+        margin: 0 0 8px;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    &__text {
+        max-width: 22em;
+        margin: 0 auto;
+        font-size: 14px;
+        line-height: 1.6;
+        color: $muted;
+    }
+}
+
+.how.is-visible .step:nth-child(2) .step__icon {
+    animation: icon-bob 4s ease-in-out 1.5s infinite;
+}
+
+@media (max-width: $bp-lg) {
+    .how__steps {
+        grid-template-columns: 1fr;
+        gap: 40px;
+
+        &::before {
+            display: none;
+        }
+    }
+}
+
+@media (max-width: $bp-md) {
+    .how {
+        padding: 64px 20px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .how__steps::before {
+        transform: scaleX(1);
+        animation: none !important;
+    }
+
+    .step__icon {
+        animation: none !important;
+    }
+}
