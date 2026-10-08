@@ -59,7 +59,7 @@
     }
 
     &:hover {
-        border-color: darken($border, 10%);
+        border-color: $border, 10%;
     }
 
     &.is-open {

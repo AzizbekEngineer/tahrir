@@ -139,7 +139,7 @@ $on-dark-soft: rgba(255, 255, 255, 0.12);
             }
 
             &:hover {
-                background: darken($action-orange, 6%);
+                background: $action-orange;
 
                 svg {
                     transform: translate(2px, -2px) rotate(8deg);

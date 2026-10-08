@@ -118,7 +118,7 @@
                 color: $ink;
 
                 &:hover {
-                    border-color: darken($border, 15%);
+                    border-color: $border;
                     box-shadow: 0 4px 12px rgba($ink, 0.08);
                 }
             }
@@ -130,7 +130,7 @@
                 box-shadow: 0 6px 16px rgba($action-orange, 0.3);
 
                 &:hover {
-                    background: darken($action-orange, 5%);
+                    background: $action-orange;
                     box-shadow: 0 8px 20px rgba($action-orange, 0.4);
                 }
             }
@@ -157,7 +157,7 @@
         transition: border-color 0.2s, box-shadow 0.2s;
 
         &:hover {
-            border-color: darken($border, 15%);
+            border-color: $border;
             box-shadow: 0 4px 12px rgba($ink, 0.08);
         }
 

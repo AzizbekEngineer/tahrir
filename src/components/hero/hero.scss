@@ -261,7 +261,7 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
             color: $white;
 
             &:hover {
-                background: darken($action-orange, 5%);
+                background: $action-orange;
                 box-shadow: 0 10px 22px rgba($action-orange, 0.35);
 
                 svg {
@@ -275,7 +275,7 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
             color: $ink;
 
             &:hover {
-                border-color: darken($border, 12%);
+                border-color: $border;
                 box-shadow: 0 8px 18px rgba(23, 27, 25, 0.08);
 
                 svg {

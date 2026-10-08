@@ -198,7 +198,7 @@
         }
 
         &:hover:not(:disabled) {
-            border-color: darken($border, 12%);
+            border-color: $border, 12%;
             transform: translateY(-2px);
 
             svg {
