@@ -1,7 +1,98 @@
 @use "../../styles/variables" as *;
 @use "../../styles/motion" as *;
 
-@keyframes line-draw {
+$green: #22b573;
+$green-soft: #e3f5ec;
+$peach-soft: #fde3d2;
+$track: #f3ece6;
+
+@keyframes underline-draw {
+    from {
+        stroke-dashoffset: 1;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes spark-blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes chip-float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(var(--r, 0deg));
+    }
+
+    50% {
+        transform: translateY(-6px) rotate(var(--r, 0deg));
+    }
+}
+
+@keyframes float-y {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+@keyframes blob-pulse {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.06);
+    }
+}
+
+@keyframes cursor-tap {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    40% {
+        transform: translate(-6px, -4px);
+    }
+
+    55% {
+        transform: translate(-6px, -4px) scale(0.9);
+    }
+}
+
+@keyframes arrow-nudge {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+}
+
+@keyframes progress-in {
     from {
         transform: scaleX(0);
     }
@@ -11,155 +102,532 @@
     }
 }
 
-@keyframes icon-bob {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-6px);
-    }
-}
-
 .how {
-    background: $warm;
+    position: relative;
+    overflow-x: clip;
+    background:
+        radial-gradient(circle at 100% 0%, rgba($action-orange, 0.1), transparent 38%),
+        radial-gradient(circle at 0% 60%, rgba($action-orange, 0.07), transparent 36%),
+        radial-gradient(circle at 10% 100%, rgba($action-orange, 0.08), transparent 34%),
+        $warm;
     font-family: $font;
     color: $ink;
     padding: 88px 24px;
 
     &__inner {
-        max-width: 1100px;
+        max-width: 1200px;
         margin: 0 auto;
     }
 
+    // ===== Sarlavha =====
     &__head {
         @include section-head;
     }
 
-    &__badge {
-        @include section-badge;
+    &__badge-wrap {
+        position: relative;
+        display: inline-block;
         @include reveal(0s);
+    }
+
+    &__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 20px;
+        border-radius: $radius-pill;
         background: $orange-soft;
+        border: 1px solid rgba($action-orange, 0.22);
+        box-shadow: 0 6px 16px rgba($action-orange, 0.12);
         color: $action-orange;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+
+        &::before {
+            content: "";
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: currentColor;
+        }
     }
 
     &__title {
         @include section-title;
         @include reveal(0.1s);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+    }
+
+    &__hl {
+        position: relative;
+        display: inline-block;
+        color: $action-orange;
+    }
+
+    &__underline {
+        position: absolute;
+        left: 4%;
+        bottom: -0.12em;
+        width: 92%;
+        height: 0.2em;
+        overflow: visible;
+
+        path {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 3;
+            stroke-linecap: round;
+            vector-effect: non-scaling-stroke;
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
+        }
+    }
+
+    &.is-visible &__underline path {
+        animation: underline-draw 1s $ease-out 0.7s forwards;
     }
 
     &__text {
         margin: 0;
-        font-size: clamp(15px, 1.3vw, 17px);
+        font-size: clamp(15px, 1.3vw, 18px);
         line-height: 1.6;
         color: $muted;
         @include reveal(0.2s);
     }
 
+    // ===== Qadamlar qatori =====
     &__steps {
-        position: relative;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 32px;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        align-items: center;
+        gap: 18px;
         margin: 0;
         padding: 0;
         list-style: none;
+    }
 
-        // Qadamlarni bog'lovchi chiziq
-        &::before {
-            content: "";
+    &__arrow {
+        display: flex;
+        color: $brand-orange;
+
+        &--1 {
+            @include reveal(0.5s);
+        }
+
+        &--2 {
+            @include reveal(0.75s);
+        }
+    }
+
+    &.is-visible &__arrow svg {
+        animation: arrow-nudge 1.6s ease-in-out 1.2s infinite;
+    }
+}
+
+// ===== Kichik bezak (chiziqchalar) =====
+.spark {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    overflow: visible;
+    pointer-events: none;
+
+    line {
+        stroke: $brand-orange;
+        stroke-width: 2.6;
+        stroke-linecap: round;
+        animation: spark-blink 2.6s ease-in-out infinite;
+    }
+
+    &--badge {
+        left: -34px;
+        top: -18px;
+        transform: rotate(-30deg);
+    }
+
+    &--title {
+        right: -30px;
+        top: -30px;
+        transform: rotate(35deg);
+    }
+
+    &--up {
+        left: 2%;
+        top: 22%;
+        transform: rotate(-60deg);
+    }
+
+    &--click {
+        left: 74%;
+        top: 22%;
+        transform: rotate(25deg);
+    }
+
+    &--res {
+        right: 0;
+        top: 30%;
+        transform: rotate(60deg);
+    }
+}
+
+// ===== Karta =====
+.step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 24px 28px;
+    border: 1px solid rgba($ink, 0.05);
+    border-radius: 28px;
+    background: rgba($white, 0.85);
+    box-shadow: 0 18px 40px rgba($ink, 0.06);
+    text-align: center;
+    transition: transform 0.3s $ease-out, box-shadow 0.3s $ease-out;
+
+    @for $i from 1 through 3 {
+        &--#{$i} {
+            @include reveal(0.25s * $i);
+        }
+    }
+
+    &:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 24px 48px rgba($ink, 0.1);
+    }
+
+    &__num {
+        position: absolute;
+        top: 18px;
+        left: 18px;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: $ink;
+        color: $white;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+    }
+
+    &__art {
+        width: 100%;
+        margin-bottom: 22px;
+    }
+
+    &__title {
+        margin: 0 0 10px;
+        font-size: clamp(20px, 1.8vw, 24px);
+        font-weight: 800;
+        letter-spacing: -0.01em;
+    }
+
+    &__text {
+        max-width: 20em;
+        margin: 0 auto 24px;
+        font-size: 15px;
+        line-height: 1.6;
+        color: $muted;
+    }
+
+    // Pastki progress: har bir qadamda segment boshqa joyda
+    &__progress {
+        position: relative;
+        width: 100%;
+        height: 6px;
+        margin-top: auto;
+        border-radius: 999px;
+        background: $track;
+
+        i {
             position: absolute;
-            top: 40px;
-            left: 16.6%;
-            right: 16.6%;
-            height: 2px;
-            background: repeating-linear-gradient(90deg,
-                    $brand-orange 0 8px,
-                    transparent 8px 16px);
+            top: 0;
+            bottom: 0;
+            width: 24%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, $action-orange, $brand-orange);
             transform: scaleX(0);
             transform-origin: left;
         }
     }
 
-    &.is-visible &__steps::before {
-        animation: line-draw 1.2s $ease-out 0.5s forwards;
+    &--1 &__progress i {
+        left: 0;
+    }
+
+    &--2 &__progress i {
+        left: 38%;
+    }
+
+    &--3 &__progress i {
+        left: 76%;
     }
 }
 
-.step {
-    position: relative;
-    text-align: center;
+.how.is-visible .step__progress i {
+    animation: progress-in 0.9s $ease-out 1s forwards;
+}
 
-    @for $i from 1 through 3 {
-        &:nth-child(#{$i}) {
-            @include reveal(0.25s * $i);
+// ===== Rasmlar (umumiy) =====
+.art {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    height: 240px;
+    margin: 0 auto;
+
+    &__blob {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 78%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: radial-gradient(circle, $peach-soft, rgba($peach-soft, 0.2) 70%, transparent);
+        transform: translate(-50%, -50%);
+        animation: blob-pulse 7s ease-in-out infinite;
+
+        &--green {
+            background: radial-gradient(circle, $green-soft, rgba($green-soft, 0.2) 70%, transparent);
         }
     }
 
-    &__icon {
-        position: relative;
-        display: grid;
-        place-items: center;
-        width: 80px;
-        height: 80px;
-        margin: 0 auto 22px;
-        border-radius: 24px;
-        background: $white;
-        color: $brand-orange;
-        box-shadow: 0 10px 24px rgba(23, 27, 25, 0.08);
-        transition: transform 0.35s $ease-out, background 0.3s, color 0.3s;
-    }
-
-    &:hover &__icon {
-        background: $action-orange;
-        color: $white;
-        transform: translateY(-6px) rotate(-4deg);
-    }
-
-    &__num {
+    &__cursor {
         position: absolute;
-        top: -8px;
-        right: -8px;
+        left: 66%;
+        top: 34%;
+        width: 44px;
+        height: 50px;
+        fill: $action-orange;
+        stroke: $white;
+        stroke-width: 2;
+        stroke-linejoin: round;
+        filter: drop-shadow(0 8px 10px rgba($action-orange, 0.35));
+        animation: cursor-tap 3.4s ease-in-out infinite;
+    }
+
+    // --- 1: yuklash ---
+    &__tile {
+        position: absolute;
+        left: 8%;
+        top: 50%;
         display: grid;
         place-items: center;
-        width: 26px;
-        height: 26px;
-        border-radius: 50%;
-        background: $ink;
+        width: 42%;
+        aspect-ratio: 1;
+        margin-top: -21%;
+        border-radius: 32px;
+        background: $white;
+        color: $action-orange;
+        box-shadow: 0 16px 30px rgba($action-orange, 0.16);
+        animation: float-y 5s ease-in-out infinite;
+    }
+}
+
+.chip {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px 7px 8px;
+    border-radius: 999px;
+    background: $white;
+    box-shadow: 0 8px 18px rgba($ink, 0.1);
+    color: $muted;
+    font-size: 13px;
+    font-weight: 500;
+    transform: rotate(var(--r, 0deg));
+    animation: chip-float 4.6s ease-in-out var(--d, 0s) infinite;
+
+    &__ico {
+        display: grid;
+        place-items: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 5px;
         color: $white;
-        font-size: 12px;
+        font-size: 11px;
+        font-style: normal;
         font-weight: 700;
     }
+}
 
-    &__title {
-        margin: 0 0 8px;
-        font-size: 18px;
-        font-weight: 700;
+// --- 2: amal tanlash ---
+.menu {
+    position: absolute;
+    left: 6%;
+    top: 12%;
+    width: 64%;
+    padding: 10px 12px 12px;
+    border-radius: 20px;
+    background: $white;
+    box-shadow: 0 16px 30px rgba($ink, 0.1);
+    animation: float-y 5.6s ease-in-out infinite;
+
+    &__dots {
+        display: flex;
+        gap: 5px;
+        margin: 0 0 8px 4px;
+
+        i {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #dcdcd8;
+        }
     }
 
-    &__text {
-        max-width: 22em;
-        margin: 0 auto;
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 6px 8px;
+        border-radius: 12px;
         font-size: 14px;
-        line-height: 1.6;
-        color: $muted;
+        font-weight: 500;
+        text-align: left;
+
+        &:nth-child(odd) {
+            background: #faf7f4;
+        }
+    }
+
+    &__ico {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: $peach-soft;
+        color: $action-orange;
     }
 }
 
-.how.is-visible .step:nth-child(2) .step__icon {
-    animation: icon-bob 4s ease-in-out 1.5s infinite;
+.bars {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+
+    i {
+        width: 3px;
+        border-radius: 1px;
+        background: currentColor;
+
+        &:nth-child(1) {
+            height: 6px;
+        }
+
+        &:nth-child(2) {
+            height: 12px;
+        }
+
+        &:nth-child(3) {
+            height: 9px;
+        }
+    }
 }
 
+// --- 3: natija ---
+.doc {
+    position: absolute;
+    left: 12%;
+    top: 8%;
+    width: 56%;
+    height: 78%;
+    padding: 22px 20px;
+    border-radius: 18px;
+    background: $white;
+    box-shadow: 0 16px 30px rgba($ink, 0.1);
+    animation: float-y 5.2s ease-in-out infinite;
+
+    // buklangan burchak
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 0 18px 0 12px;
+        background: linear-gradient(225deg, #f1f1ee 50%, transparent 50%);
+    }
+
+    &__check {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        background: $green;
+        color: $white;
+        box-shadow: 0 8px 16px rgba($green, 0.35);
+    }
+
+    &__line {
+        display: block;
+        height: 6px;
+        margin-bottom: 9px;
+        border-radius: 3px;
+        background: #e9e9e6;
+
+        &--md {
+            width: 82%;
+        }
+
+        &--sm {
+            width: 64%;
+        }
+
+        &--xs {
+            width: 46%;
+        }
+    }
+}
+
+.dl {
+    position: absolute;
+    right: 6%;
+    bottom: 6%;
+    display: grid;
+    place-items: center;
+    width: 24%;
+    aspect-ratio: 1;
+    border-radius: 20px;
+    background: $white;
+    color: $action-orange;
+    box-shadow: 0 14px 26px rgba($ink, 0.14);
+    animation: float-y 4.4s ease-in-out 0.6s infinite;
+}
+
+// ===== Moslashuvchanlik =====
 @media (max-width: $bp-lg) {
     .how__steps {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 16px;
+    }
 
-        &::before {
-            display: none;
-        }
+    .how__arrow {
+        justify-self: center;
+        transform: rotate(90deg);
+    }
+
+    .step {
+        max-width: 480px;
+        width: 100%;
+        margin: 0 auto;
     }
 }
 
@@ -167,15 +635,32 @@
     .how {
         padding: 64px 20px;
     }
-}
 
-@media (prefers-reduced-motion: reduce) {
-    .how__steps::before {
-        transform: scaleX(1);
-        animation: none !important;
+    .spark--badge,
+    .spark--title {
+        display: none;
     }
 
-    .step__icon {
+    .step {
+        padding: 20px 18px 24px;
+    }
+}
+
+// ===== Harakatni kamaytirish (accessibility) =====
+@media (prefers-reduced-motion: reduce) {
+
+    .how *,
+    .how *::before,
+    .how *::after {
         animation: none !important;
+        transition: none !important;
+    }
+
+    .how__underline path {
+        stroke-dashoffset: 0;
+    }
+
+    .step__progress i {
+        transform: scaleX(1);
     }
 }

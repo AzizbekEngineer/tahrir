@@ -1,8 +1,11 @@
 // Yo'lni loyihangizdagi _variables.scss joyiga moslang
 @use "../../styles/variables" as *;
 
-$peach: #fbe3d3;
-$paper-line: #e6e7e4;
+$paper-line: #e9e9e6;
+$green: #34d27b;
+$green-soft: #cdf4de;
+$peach-soft: #fde3d2;
+$peach-mid: #ffb58a;
 $peach-deep: #eadfd2;
 
 $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -33,7 +36,7 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 @keyframes art-in {
     from {
         opacity: 0;
-        transform: translateY(30px) scale(0.94);
+        transform: translateY(30px) scale(0.95);
     }
 
     to {
@@ -51,18 +54,6 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
     50% {
         transform: translateY(-9px);
-    }
-}
-
-@keyframes paper-pop {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
     }
 }
 
@@ -92,23 +83,9 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     }
 }
 
-@keyframes ring-breathe {
-
-    0%,
-    100% {
-        opacity: 0.55;
-        stroke-width: 20;
-    }
-
-    50% {
-        opacity: 1;
-        stroke-width: 26;
-    }
-}
-
-@keyframes swoosh-draw {
+@keyframes underline-draw {
     from {
-        stroke-dashoffset: 900;
+        stroke-dashoffset: 1;
     }
 
     to {
@@ -116,7 +93,7 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     }
 }
 
-@keyframes swoosh-glow {
+@keyframes spark-blink {
 
     0%,
     100% {
@@ -124,7 +101,7 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     50% {
-        opacity: 0.75;
+        opacity: 0.25;
     }
 }
 
@@ -154,21 +131,25 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     }
 }
 
+// ===== Hero =====
 .hero {
-    background: $warm;
+    background:
+        radial-gradient(circle at 88% 18%, rgba($action-orange, 0.1), transparent 42%),
+        radial-gradient(circle at 4% 92%, rgba($action-orange, 0.07), transparent 38%),
+        radial-gradient(circle at 50% 100%, rgba($action-orange, 0.05), transparent 45%),
+        $warm;
     font-family: $font;
     color: $ink;
-    padding: 40px 24px 0;
+    padding: 56px 24px 0;
     overflow-x: clip;
 
     &__inner {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1.08fr;
         align-items: center;
-        gap: 32px;
+        gap: 24px;
     }
 
-    // Matn qismi: ketma-ket paydo bo'lish
     &__badge,
     &__title,
     &__text,
@@ -181,18 +162,20 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 6px 14px;
+        padding: 8px 16px;
         border-radius: $radius-pill;
         background: $orange-soft;
+        border: 1px solid rgba($action-orange, 0.22);
         color: $action-orange;
         font-size: 12px;
-        font-weight: 500;
+        font-weight: 600;
+        letter-spacing: 0.01em;
         animation-delay: 0.1s;
 
         &::before {
             content: "";
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: currentColor;
             animation: badge-dot 1.8s ease-in-out infinite;
@@ -200,20 +183,52 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     &__title {
-        max-width: 9em;
-        margin: 22px 0 18px;
-        font-size: clamp(34px, 4.2vw, 58px);
-        font-weight: 700;
-        line-height: 1.13;
-        letter-spacing: -0.02em;
+        max-width: 11em;
+        margin: 26px 0 22px;
+        font-size: clamp(36px, 4.8vw, 68px);
+        font-weight: 800;
+        line-height: 1.08;
+        letter-spacing: -0.035em;
         animation-delay: 0.25s;
+
+        em {
+            font-style: normal;
+            color: $action-orange;
+        }
+    }
+
+    // Oxirgi so'z: to'q sariq + egri chiziq
+    &__hl {
+        position: relative;
+        display: inline-block;
+        color: $action-orange;
+    }
+
+    &__underline {
+        position: absolute;
+        left: 0;
+        bottom: -0.1em;
+        width: 100%;
+        height: 0.2em;
+        overflow: visible;
+
+        path {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 3;
+            stroke-linecap: round;
+            vector-effect: non-scaling-stroke;
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
+            animation: underline-draw 1s $ease-out 0.9s forwards;
+        }
     }
 
     &__text {
         max-width: 30em;
-        margin: 0 0 28px;
-        font-size: clamp(15px, 1.3vw, 18px);
-        line-height: 1.5;
+        margin: 0 0 32px;
+        font-size: clamp(15px, 1.35vw, 19px);
+        line-height: 1.6;
         color: $muted;
         animation-delay: 0.4s;
     }
@@ -221,19 +236,19 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     &__cta {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 14px;
         animation-delay: 0.55s;
     }
 
     &__btn {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        height: 46px;
-        padding: 0 24px;
-        border-radius: $radius-sm;
+        gap: 12px;
+        height: 54px;
+        padding: 0 30px;
+        border-radius: 12px;
         border: 1px solid $border;
-        font: 500 14px $font;
+        font: 500 16px $font;
         cursor: pointer;
         transition: background 0.2s, border-color 0.2s, transform 0.25s $ease-out,
             box-shadow 0.25s $ease-out;
@@ -259,10 +274,10 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
             background: $action-orange;
             border-color: $action-orange;
             color: $white;
+            box-shadow: 0 10px 22px rgba($action-orange, 0.3);
 
             &:hover {
-                background: $action-orange;
-                box-shadow: 0 10px 22px rgba($action-orange, 0.35);
+                box-shadow: 0 14px 28px rgba($action-orange, 0.42);
 
                 svg {
                     animation: arrow-nudge 0.9s ease-in-out infinite;
@@ -273,10 +288,10 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
         &--light {
             background: $white;
             color: $ink;
+            box-shadow: 0 6px 16px rgba(23, 27, 25, 0.05);
 
             &:hover {
-                border-color: $border;
-                box-shadow: 0 8px 18px rgba(23, 27, 25, 0.08);
+                box-shadow: 0 10px 22px rgba(23, 27, 25, 0.1);
 
                 svg {
                     transform: scale(1.2);
@@ -288,7 +303,7 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     // ===== Rasm =====
     &__art {
         width: 100%;
-        max-width: 480px;
+        max-width: 560px;
         justify-self: center;
         opacity: 0;
         animation: art-in 1s $ease-out 0.3s forwards;
@@ -302,10 +317,10 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     }
 }
 
-// ===== SVG animatsiyalari =====
+// ===== SVG elementlari =====
 .art {
     &__blob {
-        fill: $orange-soft;
+        fill: rgba($action-orange, 0.07);
         transform-box: fill-box;
         transform-origin: center;
         animation: blob-pulse 7s ease-in-out infinite;
@@ -320,13 +335,17 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
     &__ring {
         fill: none;
-        stroke: $peach;
-        stroke-width: 20;
-        animation: ring-breathe 6s ease-in-out infinite;
+        stroke: $brand-orange;
+        stroke-width: 13;
+        stroke-linecap: round;
     }
 
     &__paper {
         fill: $white;
+    }
+
+    &__bar-top {
+        fill: #f3f3f0;
     }
 
     &__line {
@@ -338,46 +357,65 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
         fill: $ink;
     }
 
-    &__swoosh {
+    &__squiggle {
         fill: none;
         stroke: $brand-orange;
-        stroke-width: 16;
+        stroke-width: 3;
         stroke-linecap: round;
-        stroke-dasharray: 900;
-        stroke-dashoffset: 900;
-        animation: swoosh-draw 1.8s $ease-out 0.9s forwards,
-            swoosh-glow 4s ease-in-out 2.7s infinite;
+        stroke-linejoin: round;
     }
-}
 
-// Qog'ozlar: har biri alohida kechikish bilan chiqadi va suzib turadi.
-// (Guruhning o'z transformi — joylashuv/burilish — buzilmaydi,
-// animatsiya faqat ichki elementlarga beriladi.)
-.hero__art svg>g {
-    >* {
+    &__pill {
+        &--green {
+            fill: $green;
+        }
+
+        &--green-soft {
+            fill: $green-soft;
+        }
+
+        &--green-light {
+            fill: $green;
+        }
+
+        &--peach {
+            fill: $peach-mid;
+        }
+
+        &--peach-soft {
+            fill: $peach-soft;
+        }
+    }
+
+    &__bar {
+        fill: $brand-orange;
+
+        &--soft {
+            fill: $brand-orange;
+        }
+    }
+
+    &__cursor {
+        fill: $brand-orange;
+        stroke: $white;
+        stroke-width: 2;
+        stroke-linejoin: round;
+    }
+
+    &__spark line {
+        stroke: $brand-orange;
+        stroke-width: 3;
+        stroke-linecap: round;
+        animation: spark-blink 2.6s ease-in-out infinite;
+    }
+
+    // Har bir qog'oz: kechikib paydo bo'ladi, keyin suzib turadi.
+    // (Tashqi guruhning joylashuvi/burilishi buzilmaydi.)
+    &__float {
         opacity: 0;
-        animation: paper-pop 0.8s $ease-out forwards,
-            paper-float 5s ease-in-out infinite;
-    }
-
-    &:nth-of-type(1)>* {
-        animation-delay: 0.5s, 1.3s;
-        animation-duration: 0.8s, 5s;
-    }
-
-    &:nth-of-type(2)>* {
-        animation-delay: 0.65s, 1.9s;
-        animation-duration: 0.8s, 5.6s;
-    }
-
-    &:nth-of-type(3)>* {
-        animation-delay: 0.8s, 2.4s;
-        animation-duration: 0.8s, 6.2s;
-    }
-
-    &:nth-of-type(4)>* {
-        animation-delay: 0.95s, 1.6s;
-        animation-duration: 0.8s, 5.3s;
+        animation:
+            fade-in 0.8s ease var(--d, 0s) forwards,
+            paper-float var(--t, 5s) ease-in-out calc(var(--d, 0s) + 0.8s) infinite;
     }
 }
 
@@ -385,9 +423,9 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 .hero__features {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-    margin: 36px auto 0;
-    padding: 28px 0 40px;
+    gap: 0;
+    margin: 48px auto 0;
+    padding: 30px 0 44px;
     list-style: none;
     border-top: 1px solid $border;
     animation: fade-in 0.8s ease 1s backwards;
@@ -395,11 +433,20 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
 .feature {
     display: flex;
-    align-items: flex-start;
-    gap: 14px;
+    align-items: center;
+    gap: 16px;
+    padding: 0 24px;
     color: $brand-orange;
     cursor: default;
     animation: fade-up 0.7s $ease-out backwards;
+
+    &:first-child {
+        padding-left: 0;
+    }
+
+    &+& {
+        border-left: 1px solid $border;
+    }
 
     @for $i from 1 through 4 {
         &:nth-child(#{$i}) {
@@ -413,13 +460,13 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     &:hover>svg {
-        transform: translateY(-4px) rotate(-8deg) scale(1.15);
+        transform: translateY(-4px) rotate(-8deg) scale(1.12);
     }
 
     strong {
         display: block;
-        font-size: 14px;
-        font-weight: 500;
+        font-size: 15px;
+        font-weight: 600;
         color: $ink;
         transition: color 0.2s;
     }
@@ -431,7 +478,7 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     span {
         display: block;
         margin-top: 4px;
-        font-size: 12px;
+        font-size: 13px;
         color: $muted;
     }
 }
@@ -442,14 +489,36 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
         grid-template-columns: 1fr;
     }
 
+    .hero__art {
+        max-width: 520px;
+    }
+
     .hero__features {
         grid-template-columns: repeat(2, 1fr);
+        row-gap: 24px;
+    }
+
+    .feature {
+        padding: 0;
+
+        &+& {
+            border-left: 0;
+        }
     }
 }
 
 @media (max-width: $bp-md) {
     .hero {
         padding-top: 32px;
+    }
+
+    .hero__title {
+        max-width: none;
+    }
+
+    .hero__btn {
+        flex: 1 1 100%;
+        justify-content: center;
     }
 
     .hero__features {
@@ -470,7 +539,7 @@ $ease-out: cubic-bezier(0.22, 1, 0.36, 1);
         opacity: 1 !important;
     }
 
-    .art__swoosh {
+    .hero__underline path {
         stroke-dashoffset: 0;
     }
 }

@@ -1,62 +1,164 @@
 @use "../../styles/variables" as *;
 @use "../../styles/motion" as *;
 
+$peach-soft: #fde3d2;
+$track: #f3ece6;
+$tag-text: #b4440e;
+
+@keyframes spark-blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes float-y {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes blob-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
 .audience {
-    background: $white;
+    position: relative;
+    overflow-x: clip;
+    background:
+        radial-gradient(circle at 100% 0%, rgba($action-orange, 0.09), transparent 38%),
+        radial-gradient(circle at 0% 45%, rgba($action-orange, 0.06), transparent 36%),
+        radial-gradient(circle at 90% 100%, rgba($action-orange, 0.07), transparent 34%),
+        $white;
     font-family: $font;
     color: $ink;
     padding: 88px 24px;
 
-    &__inner {
-        max-width: 1100px;
-        margin: 0 auto;
-    }
-
+    // ===== Sarlavha =====
     &__head {
         @include section-head;
     }
 
-    &__badge {
-        @include section-badge;
+    &__badge-wrap {
+        position: relative;
+        display: inline-block;
         @include reveal(0s);
+    }
+
+    &__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 20px;
+        border-radius: $radius-pill;
         background: $orange-soft;
+        border: 1px solid rgba($action-orange, 0.22);
+        box-shadow: 0 6px 16px rgba($action-orange, 0.12);
         color: $action-orange;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+
+        &::before {
+            content: "";
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: currentColor;
+        }
     }
 
     &__title {
+        position: relative;
         @include section-title;
         @include reveal(0.1s);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+
+        em {
+            font-style: normal;
+            color: $action-orange;
+        }
     }
 
     &__text {
         margin: 0;
-        font-size: clamp(15px, 1.3vw, 17px);
+        font-size: clamp(15px, 1.3vw, 18px);
         line-height: 1.6;
         color: $muted;
         @include reveal(0.2s);
     }
 
+    // ===== Kartalar =====
     &__grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
+        gap: 22px;
         margin: 0;
         padding: 0;
         list-style: none;
     }
 }
 
+// ===== Nur chiziqlari (sarlavha atrofi) =====
+.spark {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    overflow: visible;
+    pointer-events: none;
+
+    line {
+        stroke: $brand-orange;
+        stroke-width: 2.6;
+        stroke-linecap: round;
+        animation: spark-blink 2.6s ease-in-out infinite;
+    }
+
+    &--badge {
+        left: -34px;
+        top: -18px;
+        transform: rotate(-30deg);
+    }
+
+    &--title {
+        right: -4%;
+        top: -6px;
+        transform: rotate(60deg);
+    }
+}
+
+// ===== Karta =====
 .card {
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 28px 24px;
-    border: 1px solid $border;
-    border-radius: 20px;
-    background: $warm;
-    overflow: hidden;
-    transition: transform 0.35s $ease-out, box-shadow 0.35s $ease-out,
-        border-color 0.3s, background 0.3s;
+    padding: 22px 22px 26px;
+    border: 1px solid rgba($ink, 0.05);
+    border-radius: 26px;
+    background: rgba($white, 0.9);
+    box-shadow: 0 18px 40px rgba($ink, 0.06);
+    transition: transform 0.35s $ease-out, box-shadow 0.35s $ease-out;
 
     @for $i from 1 through 4 {
         &:nth-child(#{$i}) {
@@ -64,74 +166,234 @@
         }
     }
 
-    // pastdan chiquvchi urg'u chizig'i
-    &::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 3px;
-        background: $brand-orange;
-        transform: scaleX(0);
-        transform-origin: left;
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 26px 50px rgba($ink, 0.11);
+    }
+
+    &__art {
+        margin: 0 -6px 14px;
         transition: transform 0.4s $ease-out;
     }
 
-    &:hover {
-        transform: translateY(-8px);
-        background: $white;
-        border-color: $orange-soft;
-        box-shadow: 0 20px 40px rgba(23, 27, 25, 0.1);
-
-        &::after {
-            transform: scaleX(1);
-        }
-    }
-
-    &__icon {
-        display: grid;
-        place-items: center;
-        width: 52px;
-        height: 52px;
-        margin-bottom: 20px;
-        border-radius: 16px;
-        background: $orange-soft;
-        color: $action-orange;
-        transition: transform 0.35s $ease-out, background 0.3s, color 0.3s;
-    }
-
-    &:hover &__icon {
-        background: $action-orange;
-        color: $white;
-        transform: rotate(-8deg) scale(1.1);
+    &:hover &__art {
+        transform: scale(1.04) rotate(-1deg);
     }
 
     &__title {
-        margin: 0 0 8px;
-        font-size: 17px;
-        font-weight: 700;
+        margin: 0 0 10px;
+        font-size: clamp(19px, 1.6vw, 22px);
+        font-weight: 800;
+        letter-spacing: -0.01em;
     }
 
     &__text {
         flex: 1;
         margin: 0 0 18px;
-        font-size: 14px;
+        font-size: 14.5px;
         line-height: 1.6;
         color: $muted;
     }
 
     &__tag {
         align-self: flex-start;
-        padding: 5px 12px;
+        padding: 8px 16px;
         border-radius: 999px;
-        background: $white;
-        border: 1px solid $border;
-        font-size: 12px;
-        color: $ink;
+        background: $orange-soft;
+        color: $tag-text;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    // Pastki progress: hover'da to'ladi
+    &__progress {
+        position: relative;
+        height: 6px;
+        margin-top: 26px;
+        border-radius: 999px;
+        background: $track;
+        overflow: hidden;
+
+        i {
+            display: block;
+            width: 24%;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, $action-orange, $brand-orange);
+            transition: width 0.6s $ease-out;
+        }
+    }
+
+    &:hover &__progress i {
+        width: 100%;
     }
 }
 
+// ===== Rasmlar (SVG) =====
+.il {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+
+    &__blob {
+        fill: rgba($action-orange, 0.09);
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: blob-pulse 7s ease-in-out infinite;
+    }
+
+    &__floor {
+        fill: #eadfd2;
+        opacity: 0.7;
+    }
+
+    &__float {
+        animation: float-y 5.5s ease-in-out infinite;
+    }
+
+    &__paper {
+        fill: $white;
+
+        &--warm {
+            fill: #fff6ef;
+        }
+    }
+
+    &__soft {
+        fill: $peach-soft;
+    }
+
+    &__cover {
+        &--orange {
+            fill: $action-orange;
+        }
+
+        &--dark {
+            fill: #3a3f3d;
+        }
+    }
+
+    &__dark {
+        fill: #1f2422;
+    }
+
+    &__dark2 {
+        fill: #343a38;
+    }
+
+    &__orange {
+        fill: $action-orange;
+    }
+
+    &__stand {
+        fill: none;
+        stroke: #1f2422;
+        stroke-width: 4;
+        stroke-linecap: round;
+    }
+
+    &__pen-hi {
+        fill: rgba($white, 0.35);
+    }
+
+    &__nib {
+        fill: #f0b27a;
+    }
+
+    &__ln {
+        fill: none;
+        stroke: #e3e3df;
+        stroke-width: 5;
+        stroke-linecap: round;
+
+        &--o {
+            stroke: $brand-orange;
+        }
+    }
+
+    &__check {
+        fill: none;
+        stroke: $white;
+        stroke-width: 2.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+
+        &--big {
+            stroke-width: 6;
+        }
+    }
+
+    &__news {
+        font: 800 22px Georgia, "Times New Roman", serif;
+        fill: #1f2422;
+        letter-spacing: 0.5px;
+    }
+
+    &__img {
+        fill: #eadfd9;
+    }
+
+    &__hill {
+        fill: #cfc3bc;
+    }
+
+    &__squiggle,
+    &__sign {
+        fill: none;
+        stroke: $action-orange;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    &__bar {
+        fill: $action-orange;
+
+        &--soft {
+            fill: $brand-orange;
+        }
+    }
+
+    &__glyph {
+        font: 700 28px $font;
+        fill: $action-orange;
+
+        &--dark {
+            fill: #1f2422;
+            font-size: 30px;
+        }
+    }
+
+    &__arrow {
+        fill: none;
+        stroke: $brand-orange;
+        stroke-width: 3;
+        stroke-linecap: round;
+    }
+
+    &__spark line {
+        stroke: $brand-orange;
+        stroke-width: 3;
+        stroke-linecap: round;
+        animation: spark-blink 2.6s ease-in-out infinite;
+    }
+}
+
+// Har bir kartada rasm boshqa vaqtda suzadi
+.card:nth-child(2) .il__float {
+    animation-delay: -1.2s;
+}
+
+.card:nth-child(3) .il__float {
+    animation-delay: -2.4s;
+}
+
+.card:nth-child(4) .il__float {
+    animation-delay: -3.6s;
+}
+
+// ===== Moslashuvchanlik =====
 @media (max-width: $bp-lg) {
     .audience__grid {
         grid-template-columns: repeat(2, 1fr);
@@ -145,5 +407,27 @@
         &__grid {
             grid-template-columns: 1fr;
         }
+    }
+
+    .spark--badge,
+    .spark--title {
+        display: none;
+    }
+
+    .card {
+        max-width: 420px;
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+
+// ===== Harakatni kamaytirish (accessibility) =====
+@media (prefers-reduced-motion: reduce) {
+
+    .audience *,
+    .audience *::before,
+    .audience *::after {
+        animation: none !important;
+        transition: none !important;
     }
 }

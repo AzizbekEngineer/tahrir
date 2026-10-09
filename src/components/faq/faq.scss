@@ -1,56 +1,285 @@
 @use "../../styles/variables" as *;
 @use "../../styles/motion" as *;
 
+$peach-soft: #fde3d2;
+$chev-bg: #fdeee4;
+$green: #1f9d63;
+$green-soft: #dff5e8;
+
+@keyframes spark-blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes float-y {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes blob-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.06);
+    }
+}
+
+@keyframes arrow-nudge {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(4px);
+    }
+}
+
 .faq {
-    background: $white;
+    position: relative;
+    overflow-x: clip;
+    background:
+        radial-gradient(circle at 92% 8%, rgba($action-orange, 0.1), transparent 36%),
+        radial-gradient(circle at 0% 70%, rgba($action-orange, 0.08), transparent 36%),
+        radial-gradient(circle at 100% 100%, rgba($action-orange, 0.07), transparent 34%),
+        $white;
     font-family: $font;
     color: $ink;
     padding: 88px 24px;
 
-    &__inner {
-        max-width: 760px;
-        margin: 0 auto;
+    &__layout {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+        align-items: start;
+        gap: 56px;
     }
 
-    &__head {
-        @include section-head;
+    // ===== Chap ustun =====
+    &__badge-wrap {
+        position: relative;
+        display: inline-block;
+        @include reveal(0s);
     }
 
     &__badge {
-        @include section-badge;
-        @include reveal(0s);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 20px;
+        border-radius: $radius-pill;
         background: $orange-soft;
+        border: 1px solid rgba($action-orange, 0.18);
         color: $action-orange;
+        font-size: 14px;
+        font-weight: 600;
+
+        &::before {
+            content: "";
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: currentColor;
+        }
     }
 
     &__title {
-        @include section-title;
+        display: flex;
+        flex-direction: column;
+        margin: 22px 0 18px;
+        font-size: clamp(42px, 5.4vw, 76px);
+        font-weight: 800;
+        line-height: 1.02;
+        letter-spacing: -0.04em;
         @include reveal(0.1s);
+
+        em {
+            font-style: normal;
+            color: $action-orange;
+        }
     }
 
     &__text {
-        margin: 0;
-        font-size: clamp(15px, 1.3vw, 17px);
+        max-width: 22em;
+        margin: 0 0 34px;
+        font-size: clamp(16px, 1.4vw, 19px);
         line-height: 1.6;
         color: $muted;
         @include reveal(0.2s);
     }
 
+    // ===== O'ng ustun =====
+    &__main {
+        position: relative;
+    }
+
     &__list {
         display: grid;
-        gap: 12px;
+        gap: 14px;
         margin: 0;
         padding: 0;
         list-style: none;
     }
 }
 
+// ===== Nur chiziqlari =====
+.spark {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    overflow: visible;
+    pointer-events: none;
+
+    line {
+        stroke: $brand-orange;
+        stroke-width: 2.6;
+        stroke-linecap: round;
+        animation: spark-blink 2.6s ease-in-out infinite;
+    }
+
+    &--badge {
+        right: -30px;
+        top: -26px;
+        transform: rotate(20deg);
+    }
+
+    &--list {
+        right: -6px;
+        top: -34px;
+        transform: rotate(40deg);
+    }
+}
+
+// ===== "Yordam kerakmi?" kartasi =====
+.help {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 28px 24px 18px;
+    border: 1px solid rgba($ink, 0.05);
+    border-radius: 24px;
+    background: rgba($white, 0.9);
+    box-shadow: 0 18px 40px rgba($ink, 0.06);
+    @include reveal(0.35s);
+
+    &__art {
+        display: block;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+    }
+
+    &__blob {
+        fill: rgba($action-orange, 0.08);
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: blob-pulse 6s ease-in-out infinite;
+    }
+
+    &__float {
+        animation: float-y 4.8s ease-in-out infinite;
+    }
+
+    &__bubble {
+        fill: $white;
+
+        &--back {
+            fill: $peach-soft;
+        }
+    }
+
+    &__dot {
+        fill: $action-orange;
+
+        &--lt {
+            fill: $brand-orange;
+            opacity: 0.7;
+        }
+    }
+
+    &__spark line {
+        stroke: $brand-orange;
+        stroke-width: 3;
+        stroke-linecap: round;
+        animation: spark-blink 2.6s ease-in-out infinite;
+    }
+
+    &__title {
+        margin: 0 0 8px;
+        font-size: clamp(20px, 1.8vw, 24px);
+        font-weight: 800;
+        letter-spacing: -0.01em;
+    }
+
+    &__text {
+        margin: 0 0 16px;
+        font-size: 14.5px;
+        line-height: 1.55;
+        color: $muted;
+    }
+
+    &__btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        height: 52px;
+        border-radius: 12px;
+        background: $action-orange;
+        color: $white;
+        font: 500 16px $font;
+        text-decoration: none;
+        box-shadow: 0 10px 22px rgba($action-orange, 0.3);
+        transition: transform 0.25s $ease-out, box-shadow 0.25s $ease-out;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba($action-orange, 0.42);
+
+            svg {
+                animation: arrow-nudge 0.9s ease-in-out infinite;
+            }
+        }
+
+        &:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        &:focus-visible {
+            outline: 2px solid $brand-orange;
+            outline-offset: 3px;
+        }
+    }
+}
+
+// ===== Akkordeon elementi =====
 .item {
-    border: 1px solid $border;
-    border-radius: 16px;
-    background: $warm;
+    border: 1.5px solid rgba($ink, 0.06);
+    border-radius: 20px;
+    background: rgba($white, 0.9);
+    box-shadow: 0 10px 26px rgba($ink, 0.04);
     overflow: hidden;
-    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s $ease-out;
 
     @for $i from 1 through 5 {
         &:nth-child(#{$i}) {
@@ -58,14 +287,15 @@
         }
     }
 
-    &:hover {
-        border-color: $border, 10%;
+    &:hover:not(.is-open) {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba($ink, 0.08);
     }
 
     &.is-open {
-        background: $white;
-        border-color: $orange-soft;
-        box-shadow: 0 12px 28px rgba(23, 27, 25, 0.07);
+        border-color: $brand-orange;
+        background: linear-gradient(180deg, $white 0%, #fff7f1 100%);
+        box-shadow: 0 16px 34px rgba($action-orange, 0.14);
     }
 
     &__heading {
@@ -78,29 +308,44 @@
         justify-content: space-between;
         gap: 16px;
         width: 100%;
-        padding: 20px 24px;
+        padding: 26px 28px;
         border: 0;
         background: transparent;
         color: $ink;
-        font: 500 16px/1.4 $font;
+        font: 700 clamp(16px, 1.4vw, 20px) / 1.35 $font;
+        letter-spacing: -0.01em;
         text-align: left;
         cursor: pointer;
-
-        svg {
-            flex-shrink: 0;
-            color: $brand-orange;
-            transition: transform 0.4s $ease-out;
-        }
 
         &:focus-visible {
             outline: 2px solid $brand-orange;
             outline-offset: -4px;
-            border-radius: 16px;
+            border-radius: 20px;
         }
     }
 
-    &.is-open &__btn svg {
+    &__chev {
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: $chev-bg;
+        color: $action-orange;
+        transition: transform 0.4s $ease-out, background 0.3s;
+
+        svg {
+            transition: transform 0.4s $ease-out;
+        }
+    }
+
+    &.is-open &__chev svg {
         transform: rotate(180deg);
+    }
+
+    &__btn:hover &__chev {
+        background: $peach-soft;
     }
 
     // Balandlikni silliq ochish: grid-template-rows 0fr -> 1fr
@@ -117,23 +362,70 @@
     &__panel-inner {
         min-height: 0;
         overflow: hidden;
+    }
+
+    &__content {
+        margin: 0 28px;
+        padding: 22px 0 28px;
+        border-top: 1px solid rgba($ink, 0.08);
+        opacity: 0;
+        transform: translateY(-6px);
+        transition: opacity 0.35s ease, transform 0.45s $ease-out;
 
         p {
             margin: 0;
-            padding: 0 24px 22px;
-            font-size: 15px;
+            font-size: clamp(15px, 1.25vw, 17px);
             line-height: 1.65;
             color: $muted;
-            opacity: 0;
-            transform: translateY(-6px);
-            transition: opacity 0.35s ease, transform 0.45s $ease-out;
         }
     }
 
-    &.is-open &__panel-inner p {
+    &.is-open &__content {
         opacity: 1;
         transform: none;
         transition-delay: 0.1s;
+    }
+
+    &__tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+        padding: 9px 18px;
+        border-radius: 999px;
+        background: $green-soft;
+        color: $green;
+        font-size: 14px;
+        font-weight: 500;
+
+        i {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+    }
+}
+
+// ===== Moslashuvchanlik =====
+@media (max-width: $bp-lg) {
+    .faq__layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .faq__title {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0 0.25em;
+    }
+
+    .faq__text {
+        margin-bottom: 28px;
+    }
+
+    .help {
+        max-width: 560px;
     }
 }
 
@@ -142,21 +434,37 @@
         padding: 64px 20px;
     }
 
-    .item__btn {
-        padding: 18px 18px;
-        font-size: 15px;
+    .help {
+        grid-template-columns: 90px 1fr;
+        padding: 18px;
     }
 
-    .item__panel-inner p {
-        padding: 0 18px 18px;
+    .item__btn {
+        padding: 20px 18px;
+    }
+
+    .item__chev {
+        width: 38px;
+        height: 38px;
+    }
+
+    .item__content {
+        margin: 0 18px;
+    }
+
+    .spark--badge,
+    .spark--list {
+        display: none;
     }
 }
 
+// ===== Harakatni kamaytirish (accessibility) =====
 @media (prefers-reduced-motion: reduce) {
 
-    .item__panel,
-    .item__panel-inner p,
-    .item__btn svg {
+    .faq *,
+    .faq *::before,
+    .faq *::after {
+        animation: none !important;
         transition: none !important;
     }
 }
