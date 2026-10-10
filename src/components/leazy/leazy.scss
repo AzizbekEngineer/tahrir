@@ -1,0 +1,481 @@
+@use "../../styles/variables" as *;
+@use "../../styles/motion" as *;
+
+$header-h: 72px;
+$footer-bg: #171b19;
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.landing {
+    font-family: $font;
+    color: $ink;
+    background: $white;
+
+    // Havola bosilganda bo'lim sticky header ostida qolib ketmasin
+    [id^="sec-"],
+    #contact {
+        scroll-margin-top: $header-h + 8px;
+    }
+
+    &__skip {
+        position: absolute;
+        left: 16px;
+        top: -60px;
+        z-index: 100;
+        padding: 10px 16px;
+        border-radius: 10px;
+        background: $ink;
+        color: $white;
+        font-size: 14px;
+        text-decoration: none;
+        transition: top 0.2s;
+
+        &:focus {
+            top: 12px;
+        }
+    }
+}
+
+// ===== Tugmalar =====
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 22px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    font: 500 14px $font;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.25s $ease-out, box-shadow 0.25s $ease-out,
+        background 0.2s, border-color 0.2s;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(0) scale(0.97);
+    }
+
+    &:focus-visible {
+        outline: 2px solid $brand-orange;
+        outline-offset: 2px;
+    }
+
+    &--primary {
+        background: $action-orange;
+        color: $white;
+        box-shadow: 0 8px 18px rgba($action-orange, 0.28);
+
+        &:hover {
+            box-shadow: 0 12px 24px rgba($action-orange, 0.4);
+        }
+    }
+
+    &--ghost {
+        background: transparent;
+        border-color: $border;
+        color: $ink;
+
+        &:hover {
+            background: $warm;
+        }
+    }
+}
+
+// ===== Logo =====
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: inherit;
+    text-decoration: none;
+
+    &__mark {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+        background: linear-gradient(135deg, $brand-orange, $action-orange);
+        box-shadow: 0 6px 14px rgba($action-orange, 0.35);
+        color: $white;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    &__text {
+        font-size: 19px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+    }
+}
+
+// ===== Header =====
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba($white, 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+
+    &.is-scrolled {
+        border-bottom-color: rgba($ink, 0.06);
+        box-shadow: 0 8px 24px rgba($ink, 0.05);
+    }
+
+    &__inner {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        height: $header-h;
+    }
+
+    &__nav {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-left: 12px;
+    }
+
+    &__link {
+        position: relative;
+        padding: 10px 14px;
+        border-radius: 10px;
+        color: $muted;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.2s, background 0.2s;
+
+        &:hover {
+            color: $ink;
+            background: $warm;
+        }
+
+        &.is-active {
+            color: $action-orange;
+
+            &::after {
+                content: "";
+                position: absolute;
+                left: 14px;
+                right: 14px;
+                bottom: 2px;
+                height: 2px;
+                border-radius: 2px;
+                background: $brand-orange;
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid $brand-orange;
+            outline-offset: 2px;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-left: auto;
+    }
+
+    &__actions-mobile {
+        display: none;
+    }
+
+    &__burger {
+        display: none;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        margin-left: auto;
+        border: 1px solid $border;
+        border-radius: 12px;
+        background: $white;
+        color: $ink;
+        cursor: pointer;
+
+        &:focus-visible {
+            outline: 2px solid $brand-orange;
+            outline-offset: 2px;
+        }
+    }
+}
+
+// ===== Lazy bo'lim va skelet =====
+.lazy {
+
+    // Bo'lim ichidagi kontent kelguncha joy saqlab turadi
+    &__error {
+        display: grid;
+        place-items: center;
+        gap: 12px;
+        min-height: 240px;
+        padding: 40px 24px;
+        text-align: center;
+        color: $muted;
+
+        p {
+            margin: 0;
+        }
+
+        button {
+            height: 42px;
+            padding: 0 22px;
+            border: 1px solid $border;
+            border-radius: 12px;
+            background: $white;
+            color: $ink;
+            font: 500 14px $font;
+            cursor: pointer;
+        }
+    }
+}
+
+.skeleton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 88px 24px;
+
+    &__bar,
+    &__box {
+        display: block;
+        border-radius: 14px;
+        background: linear-gradient(90deg, #f4efea 25%, #fbf7f3 50%, #f4efea 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.6s linear infinite;
+    }
+
+    &__bar {
+        &--sm {
+            width: 120px;
+            height: 34px;
+            border-radius: 999px;
+        }
+
+        &--lg {
+            width: min(560px, 80%);
+            height: 52px;
+        }
+
+        &--md {
+            width: min(420px, 60%);
+            height: 20px;
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        width: 100%;
+        max-width: 1100px;
+        margin-top: 24px;
+    }
+
+    &__box {
+        height: 260px;
+        border-radius: 24px;
+    }
+}
+
+// ===== Footer =====
+.footer {
+    background: $footer-bg;
+    color: rgba($white, 0.78);
+
+    &__inner {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr;
+        gap: 40px;
+        padding-top: 64px;
+        padding-bottom: 48px;
+    }
+
+    &__brand {
+        .logo {
+            color: $white;
+        }
+
+        p {
+            max-width: 26em;
+            margin: 16px 0 0;
+            font-size: 14.5px;
+            line-height: 1.65;
+        }
+    }
+
+    &__col {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        h4 {
+            margin: 0 0 6px;
+            color: $white;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            width: fit-content;
+            color: inherit;
+            font-size: 14.5px;
+            text-decoration: none;
+            transition: color 0.2s, transform 0.2s $ease-out;
+
+            &:hover {
+                color: $brand-orange;
+                transform: translateX(3px);
+            }
+
+            &:focus-visible {
+                outline: 2px solid $brand-orange;
+                outline-offset: 3px;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    &__bar {
+        border-top: 1px solid rgba($white, 0.1);
+
+        p {
+            margin: 0;
+            padding: 20px 0;
+            font-size: 13px;
+            text-align: center;
+            color: rgba($white, 0.55);
+        }
+    }
+}
+
+// ===== Moslashuvchanlik =====
+@media (max-width: $bp-lg) {
+    .header {
+        &__burger {
+            display: grid;
+        }
+
+        &__actions {
+            display: none;
+        }
+
+        // Mobil menyu: header ostidan ochiladi
+        &__nav {
+            position: absolute;
+            top: $header-h;
+            left: 0;
+            right: 0;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 4px;
+            margin: 0;
+            padding: 12px 20px 20px;
+            border-bottom: 1px solid rgba($ink, 0.08);
+            background: rgba($white, 0.98);
+            box-shadow: 0 20px 30px rgba($ink, 0.08);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: opacity 0.25s, transform 0.3s $ease-out, visibility 0.25s;
+        }
+
+        &.is-open &__nav {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+        }
+
+        &__link {
+            padding: 14px 12px;
+            font-size: 16px;
+
+            &.is-active::after {
+                display: none;
+            }
+        }
+
+        &__actions-mobile {
+            display: block;
+            margin-top: 8px;
+
+            .btn {
+                width: 100%;
+                height: 50px;
+            }
+        }
+    }
+
+    .footer__inner {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .footer__brand {
+        grid-column: 1 / -1;
+    }
+
+    .skeleton__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: $bp-md) {
+    .header__inner {
+        gap: 16px;
+    }
+
+    .skeleton {
+        padding: 64px 20px;
+    }
+
+    .footer {
+        &__inner {
+            grid-template-columns: 1fr;
+            padding-top: 48px;
+        }
+    }
+}
+
+// ===== Harakatni kamaytirish (accessibility) =====
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .skeleton__bar,
+    .skeleton__box {
+        animation: none;
+    }
+
+    .header__nav,
+    .btn,
+    .footer__col a {
+        transition: none;
+    }
+}
