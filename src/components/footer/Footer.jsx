@@ -44,7 +44,7 @@ const Footer = () => {
 
   return (
     <footer className="footer">
-      <div className="footer__inner container">
+      <div className=" container">
         <div className="footer__top">
           <div className="footer__brand">
             <a
