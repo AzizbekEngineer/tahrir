@@ -9,6 +9,7 @@ import Login from "../pages/login/Login";
 import Register from "../pages/register/Register";
 import Blog from "../pages/blog/Blog";
 import Help from "../pages/help/Help";
+import Opportunities from "../pages/Opportunities/Opportunities";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/opportunities",
+        element: <Opportunities />,
       },
       {
         path: "/contact",
