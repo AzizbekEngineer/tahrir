@@ -148,10 +148,11 @@ $error: #e5322d;
             text-decoration: underline;
         }
 
-        // Xato so'zlar (CSS Custom Highlight API)
-        &::highlight(ge-spell) {
-            background-color: rgba($error, 0.12);
-            text-decoration: underline wavy $error;
+        @supports selector(::highlight(x)) {
+            &::highlight(ge-spell) {
+                background-color: rgba($error, 0.12);
+                text-decoration: underline wavy $error;
+            }
         }
     }
 
