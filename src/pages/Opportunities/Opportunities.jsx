@@ -1,5 +1,5 @@
 import GrammarEditor from "./GrammarEditor";
-import "./Opportunities.scss";
+import "./opportunities.scss";
 
 const ICONS = {
   shield:
