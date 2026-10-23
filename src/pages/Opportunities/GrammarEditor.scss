@@ -148,12 +148,12 @@ $error: #e5322d;
             text-decoration: underline;
         }
 
-        @supports selector(::highlight(x)) {
-            &::highlight(ge-spell) {
-                background-color: rgba($error, 0.12);
-                text-decoration: underline wavy $error;
-            }
-        }
+        // @supports selector(::highlight(x)) {
+        //     &::highlight(ge-spell) {
+        //         background-color: rgba($error, 0.12);
+        //         text-decoration: underline wavy $error;
+        //     }
+        // }
     }
 
     &:focus-within &__field,
